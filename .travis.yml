@@ -8,7 +8,7 @@ go:
 
 script:
 - ./format_check.sh
-- go build
+- go test
 - GOARCH=386 go build
 - GOARCH=arm go build
 
