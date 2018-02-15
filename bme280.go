@@ -313,6 +313,10 @@ func (d *Driver) Sleep() error {
 //
 // If ModeForced is selected an ad-hoc measurement is performed.
 func (d *Driver) Read() (Response, error) {
+	if !d.initialized {
+		return Response{}, fmt.Errorf("driver uninitialized")
+	}
+
 	if d.mode == ModeForced {
 		err := d.forceMeasurement()
 		if err != nil {
