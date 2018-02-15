@@ -89,7 +89,7 @@ type Driver struct {
 	device      bus
 	mode        Mode // Desired operation mode
 	initialized bool
-	calib struct {
+	calib       struct {
 		t1    uint16
 		t2    int16
 		t3    int16
