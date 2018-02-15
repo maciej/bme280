@@ -1,3 +1,9 @@
+// Package bme280 implements Bosch BME280 sensor driver in Go
+// It allows for reaching temperature, pressure and humidity data
+// provided by the sensor
+//
+// It is designed to work well with the golang.org/x/exp/io/i2c package
+// See https://godoc.org/golang.org/x/exp/io/i2c
 package bme280
 
 //go:generate stringer -type Mode,Filter,StandByTime,Oversampling -output strings.go
@@ -19,7 +25,6 @@ type Filter byte
 type StandByTime byte
 type Oversampling byte
 
-//noinspection GoUnusedConst
 const (
 	ModeSleep  Mode = 0x00
 	ModeForced Mode = 0x01
@@ -132,12 +137,17 @@ type ucompData struct {
 	hum   uint32
 }
 
+// Creates a new BME280 Driver
+//
+// The device argument can be an instance of
+// i2c.Device struct from golang.org/x/exp/io/i2c package
 func New(device bus) *Driver {
 	return &Driver{
 		device: device,
 	}
 }
 
+// Initializes the Driver
 func (d *Driver) Init() error {
 	// This function follows the official driver bme280_init method algorithm
 	buf := make([]byte, 1)
@@ -172,6 +182,7 @@ func (d *Driver) Init() error {
 	return nil
 }
 
+// Initializes the Driver with provided Mode and Settings
 func (d *Driver) InitWith(mode Mode, c Settings) error {
 	err := d.Init()
 	if err != nil {
@@ -266,6 +277,11 @@ func (d *Driver) GetSettings() (Settings, error) {
 	}, nil
 }
 
+// Gets the current power mode of the device
+//
+// Note that either ModeNormal or ModeSleep will be returned.
+// ModeForced is only active during a measurement, the device later returns to ModeSleep.
+// See device datasheet for details.
 func (d *Driver) GetMode() (Mode, error) {
 	buf := make([]byte, 1)
 
@@ -292,6 +308,9 @@ func (d *Driver) Sleep() error {
 	return d.loadSettings(settings)
 }
 
+// Reads data from Device
+//
+// If ModeForced is selected an ad-hoc measurement is performed.
 func (d *Driver) Read() (Response, error) {
 	if d.mode == ModeForced {
 		err := d.forceMeasurement()
