@@ -3,11 +3,11 @@ package bme280
 //go:generate stringer -type Mode,Filter,StandByTime,Oversampling -output strings.go
 
 import (
-	"fmt"
-	"time"
 	"encoding/binary"
+	"fmt"
 	"github.com/quhar/bme280"
 	"math"
+	"time"
 )
 
 type bus interface {
@@ -90,7 +90,7 @@ type Driver struct {
 	device      bus
 	mode        Mode // Desired operation mode
 	initialized bool
-	calib struct {
+	calib       struct {
 		t1    uint16
 		t2    int16
 		t3    int16
