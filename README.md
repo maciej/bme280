@@ -25,4 +25,5 @@ response, err := driver.Read()
 * [Datasheet](http://datasheet.octopart.com/BME280-Bosch-Tools-datasheet-101965457.pdf)
 * [Reference driver](https://github.com/BoschSensortec/BME280_driver)
 * [quhar/bme280](https://github.com/quhar/bme280) - another BME280 driver written in Go worth considering
- 
+* [periph.io](https://periph.io) - if you're considering to use a whole low-level peripherals library in Go 
+                                   (it has BME280 support)
