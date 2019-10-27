@@ -3,11 +3,14 @@ sudo: false
 notifications:
   email: false
 go:
-- 1.9.x
-- 1.10.x
+  - 1.9.x
+  - 1.10.x
+  - 1.11.x
+  - 1.12.x
+  - 1.13.x
 
 script:
-- ./format_check.sh
-- go test
-- GOARCH=386 go build
-- GOARCH=arm go build
+  - ./format_check.sh
+  - go test
+  - GOARCH=386 go build
+  - GOARCH=arm go build
