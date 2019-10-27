@@ -11,6 +11,7 @@ package bme280
 import (
 	"encoding/binary"
 	"fmt"
+	"io"
 	"math"
 	"time"
 )
@@ -345,6 +346,13 @@ func (d *Driver) Read() (Response, error) {
 		pressure,
 		humidity,
 	}, nil
+}
+
+func (d *Driver) Close() error {
+	if closer, ok := d.device.(io.Closer); ok {
+		return closer.Close()
+	}
+	return nil
 }
 
 func (d *Driver) compensateTemperature(u uint32) (float64, int32) {

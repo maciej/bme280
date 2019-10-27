@@ -25,3 +25,32 @@ func TestRead(t *testing.T) {
 		}
 	})
 }
+
+type closerBus struct {
+	closed bool
+}
+
+func (b *closerBus) ReadReg(byte, []byte) error {
+	return nil
+}
+
+func (b *closerBus) WriteReg(byte, []byte) error {
+	return nil
+}
+
+func (b *closerBus) Close() error {
+	b.closed = true
+	return nil
+}
+
+func TestClose(t *testing.T) {
+	b := closerBus{}
+	err := b.Close()
+	if err != nil {
+		t.Fatalf("close: %v", err)
+	}
+
+	if !b.closed {
+		t.Errorf("expected closed")
+	}
+}
