@@ -9,7 +9,7 @@ Go driver for the Bosch BME280 sensor.
 ```go
 // Error handling is omitted
 device, err := i2c.Open(&i2c.Devfs{Dev: "/dev/i2c-1"}, bme280.I2CAddr)
-b := bme280.New(driver)
+driver := bme280.New(device)
 err = driver.InitWith(bme280.ModeForced, bme280.Settings{
 		Filter:                  bme280.FilterOff,
 		Standby:                 bme280.StandByTime1000ms,
