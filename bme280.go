@@ -32,7 +32,7 @@ const (
 	ModeNormal Mode = 0x03
 )
 
-//noinspection GoUnusedConst,GoSnakeCaseUsage
+// noinspection GoUnusedConst,GoSnakeCaseUsage
 const (
 	I2CAddr = 0x77
 
