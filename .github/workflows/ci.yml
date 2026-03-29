@@ -1,0 +1,54 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: Test (Go ${{ matrix.go-version }}, ${{ matrix.arch }})
+    runs-on: ${{ matrix.runs-on }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - go-version: stable
+            runs-on: ubuntu-24.04
+            arch: amd64
+          - go-version: stable
+            runs-on: ubuntu-24.04-arm
+            arch: arm64
+          - go-version: oldstable
+            runs-on: ubuntu-24.04
+            arch: amd64
+          - go-version: oldstable
+            runs-on: ubuntu-24.04-arm
+            arch: arm64
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-go@v6
+        with:
+          go-version: ${{ matrix.go-version }}
+      - run: ./format_check.sh
+      - run: go test ./...
+      - run: go build ./...
+
+  build-arm32:
+    name: Build (Go ${{ matrix.go-version }}, arm)
+    runs-on: ubuntu-24.04
+    strategy:
+      fail-fast: false
+      matrix:
+        go-version:
+          - stable
+          - oldstable
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-go@v6
+        with:
+          go-version: ${{ matrix.go-version }}
+      - run: GOOS=linux GOARCH=arm go build ./...
