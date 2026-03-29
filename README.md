@@ -1,7 +1,7 @@
 # BME280 driver
 
 [![GoDoc](https://godoc.org/github.com/maciej/bme280?status.svg)](https://godoc.org/github.com/maciej/bme280)
-[![CI](https://github.com/maciej/bme280/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/maciej/bme280/actions/workflows/ci.yml)
+[![CI](https://github.com/maciej/bme280/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/maciej/bme280/actions/workflows/ci.yml)
 
 Go driver for the Bosch BME280 sensor.
 
